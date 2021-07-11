@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -24,6 +26,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private EditText etVerificationCode;
     private ImageView imVerificationCode;
     private String realCode;
+    private Switch swUserAgreement;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,9 +34,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_register);
         musterOprator = new UserOperator(this);
         init();
-
-//        imVerificationCode.setImageBitmap();
-//        realCode =
+        imVerificationCode.setImageBitmap(Code.getInstance().createBitmap());
+        realCode = Code.getInstance().getCode();
     }
 
     private void init(){
@@ -44,6 +46,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         etConfirmPassword = findViewById(R.id.et_register_confirm_password);
         etVerificationCode = findViewById(R.id.et_register_verification_code);
         imVerificationCode = findViewById(R.id.iv_register_verification_code);
+        swUserAgreement = findViewById(R.id.sw_register_user_agreement);
 
         imBack.setOnClickListener(this);
         btRegister.setOnClickListener(this);
@@ -58,6 +61,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 finish();
                 break;
             case R.id.iv_register_verification_code:
+                imVerificationCode.setImageBitmap(Code.getInstance().createBitmap());
+                realCode = Code.getInstance().getCode().toLowerCase();
                 break;
             case R.id.bt_register:
                 String userName = etUserName.getText().toString().trim();
@@ -72,9 +77,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     if(!password.equals(confirmPassword)){
                         Utils.toast(this, "请确认两次密码相同");
                     }
-                    else if(verificationCode.equals(realCode)){
+                    else if(Utils.equals(verificationCode, realCode)){
                         User bean = musterOprator.isExit(userName);
-                        if(bean != null){
+                        if(!swUserAgreement.isChecked()){
+                            Utils.toast(this, "请先阅读并同意《用户协议》");
+                        }
+                        else if(bean != null){
                             Utils.toast(this, "该用户已注册");
                         }
                         else{
@@ -88,6 +96,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         Utils.toast(this, "验证码错误");
                     }
                 }
+                break;
+            default:
                 break;
         }
     }

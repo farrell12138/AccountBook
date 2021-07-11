@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -96,7 +97,7 @@
             android:id="@+id/tv_login_forget"
             android:textStyle="italic"
             android:text="忘记密码"
-            android:textColor="@color/red1"
+            android:textColor="@color/colorAccent"
             android:textSize="20dp"
             android:layout_marginLeft="50dp"/>
 
@@ -106,7 +107,7 @@
             android:layout_width="wrap_content"
             android:textSize="20dp"
             android:text="短信验证"
-            android:textColor="@color/red1"
+            android:textColor="@color/colorAccent"
             android:layout_marginTop="70dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="50dp"/>
