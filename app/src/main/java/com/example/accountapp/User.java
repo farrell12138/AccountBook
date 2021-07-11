@@ -1,6 +1,11 @@
 package com.example.accountapp;
 
 public class User {
+    public User(String userName, String password) {
+        this.userName = userName;
+        this.password = password;
+    }
+
     public int getId() {
         return id;
     }
@@ -9,7 +14,8 @@ public class User {
         return userName;
     }
 
-    public User(){}
+    public User() {
+    }
 
     public User(int id, String userName, String password) {
         this.id = id;
