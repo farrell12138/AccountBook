@@ -13,9 +13,9 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 public class LoginActivity extends Activity implements View.OnClickListener {
-    private UserOperator muserOperator;
+    private UserOperator musterOperator;
     private TextView tvRegister;
-    private EditText etUserNmae;
+    private EditText etUserName;
     private EditText etPassword;
     private Button btLogin;
 
@@ -23,14 +23,14 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        muserOperator = new UserOperator(this);
-
+        musterOperator = new UserOperator(this);
+        initView();
     }
 
     public void initView() {
         btLogin = findViewById(R.id.bt_login);
         tvRegister = findViewById(R.id.tv_login_register);
-        etUserNmae = findViewById(R.id.et_login_username);
+        etUserName = findViewById(R.id.et_login_username);
         etPassword = findViewById(R.id.et_login_password);
 
         btLogin.setOnClickListener(this);
@@ -45,12 +45,11 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 finish();
                 break;
             case R.id.bt_login:
-                String userName = etUserNmae.getText().toString().trim();
+                String userName = etUserName.getText().toString().trim();
                 String password = etPassword.getText().toString().trim();
-                User bean = new User(userName, password);
+                User bean = musterOperator.isExit(userName);
                 if (!TextUtils.isEmpty(userName) && !TextUtils.isEmpty(password)) {
-                    User temp_bean = muserOperator.isExit(userName);
-                    if (bean.getPassword().equals(temp_bean.getPassword())) {
+                    if (bean != null && bean.getPassword().equals(password)) {
                         Toast.makeText(this, "登陆成功", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(this, MainActivity.class));
                         finish();
